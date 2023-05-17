@@ -1,6 +1,6 @@
 ---
-title: "titulo"
-author: "nombres"
+title: "Empleo según género en América Latina"
+author: "Fernanda López Franz"
 output: html_document
 ---
 
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ## Introducción
-
+El presente trabajo presenta un análisis del Tipo de Empleo según Género (tomando en consideración solo las variales mujer-hombre) para la región de América Latina y el Carible, para los años comprendidos entre 1991 y 2018. Cabe aclarar, que se realiza sobre datos disponibles para cada país y que no se cuenta con datos para todos los países, para todos los años. 
 
 
 ## Exploración de los datos
