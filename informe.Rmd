@@ -8,6 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # Cargar los paquetes necesarios acá
+library(readr)
+library(dplyr)
+library(ggplot2)
 ```
 
 
@@ -20,14 +23,26 @@ El presente trabajo presenta un análisis del Tipo de Empleo según Género (tom
 
 ```{r}
 # Código para cargar o leer los datos
+datos <- read_csv("datos/empleo_genero.csv")
 ```
 
+El presente informe cuenta con 52 variables, y 460 observaciones. Las variables se refieren al tipo de trabajo. En principio trabajaremos con la variables "empleo informal"
+
+```{r}
+datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres")
+```
 
 
 ```{r}
-# Cödigo de R acá 
-# Agregá más bloques según sea necesario
+empleo_informal <- group_by(datos, variable)
 ```
+
+##Valor medio y desvío estándar
+```{r}
+
+```
+
+
 
 
 
