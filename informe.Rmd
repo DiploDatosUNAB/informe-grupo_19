@@ -15,7 +15,7 @@ library(ggplot2)
 
 
 ## Introducción
-El presente trabajo presenta un análisis del Tipo de Empleo según Género (tomando en consideración solo las variales mujer-hombre) para la región de América Latina y el Carible, para los años comprendidos entre 1991 y 2018. Cabe aclarar, que se realiza sobre datos disponibles para cada país y que no se cuenta con datos para todos los países, para todos los años. 
+El trabajo presenta un análisis del Tipo de Empleo según Género (tomando en consideración solo las variales mujer-hombre) para la región de América Latina y el Carible, para los años comprendidos entre 1991 y 2016. Cabe aclarar, que se realiza sobre datos disponibles para cada país y que no se cuenta con datos para todos los países, para todos los años. 
 
 
 ## Exploración de los datos
@@ -26,7 +26,9 @@ El presente trabajo presenta un análisis del Tipo de Empleo según Género (tom
 datos <- read_csv("datos/empleo_genero.csv")
 ```
 
-El presente informe cuenta con 52 variables, y 460 observaciones. Las variables se refieren al tipo de trabajo. En principio trabajaremos con la variables "empleo informal"
+El informe cuenta con 52 variables, y 460 observaciones. Las variables se refieren al tipo de trabajo. En principio trabajaremos con la variables "empleo informal"
+
+
 
 ```{r}
 datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
@@ -34,11 +36,15 @@ datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|var
 ```
 
 
-
-
-
 ##Valor medio y desvío estándar
 
+```{r}
+datos_empleo_informal|>
+  group_by(variable) %>% 
+  summarise(datos_empleo_informal, media = mean(value,na.rm=TRUE))
+
+        
+```
 
 
 
