@@ -29,19 +29,15 @@ datos <- read_csv("datos/empleo_genero.csv")
 El presente informe cuenta con 52 variables, y 460 observaciones. Las variables se refieren al tipo de trabajo. En principio trabajaremos con la variables "empleo informal"
 
 ```{r}
-datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres")
+datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
+  pivot_longer(cols = -c(1:3))
 ```
 
 
-```{r}
-empleo_informal <- group_by(datos, variable)
-```
+
+
 
 ##Valor medio y desvío estándar
-```{r}
-
-```
-
 
 
 
