@@ -36,14 +36,27 @@ datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|var
 ```
 
 
+```{r}
+mutate(proporcion=empleo_informal_mujeres/("empleo_informal_mujeres"+"empleo_informal_hombres"))
+```
+
+
 ##Valor medio y desvío estándar
+```{r}
+empleo_informal_agrupado<-(group_by(datos_empleo_informal,variable,pais_region))
+```
+
 
 ```{r}
 datos_empleo_informal|>
-  group_by(variable) %>% 
-  summarise(datos_empleo_informal, media = mean(value,na.rm=TRUE))
+  summarize(empleo_informal_agrupado, media = mean(value,na.rm=TRUE))
 
         
+```
+
+```{r}
+
+
 ```
 
 
