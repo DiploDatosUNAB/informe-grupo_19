@@ -29,7 +29,12 @@ datos <- read_csv("datos/empleo_genero.csv")
 El informe cuenta con 52 variables, y 460 observaciones. Las variables se refieren al tipo de trabajo. En principio trabajaremos con la variables "empleo informal"
 
 En primer lugar, queremos trabajar con la variable "empleo informal", sobre los datos dispobibles para hombres y mujeres, para toda la región. 
-Utilizamos la función "filter" y además, organizamos la información sobre datos, en una única columna con la función "pivot_longer". 
+Utilizamos la función "filter" y además, organizamos la información sobre datos, en una única columna con la función "pivot_longer". Cuando quise knitear me saltó el error:
+
+ Error en pivot_longer (.,cols=-c(1:3)):
+ no se pudo encontrar la función "pivot_longer"
+ calls: <Anonymous>...withvisible->eval_witg_user_handlers->eval->eval-> %>% 
+ Ejecución interrumpida
 
 ```{r}
 datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
