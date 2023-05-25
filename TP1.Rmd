@@ -16,7 +16,7 @@ library(tidyr)
 
 
 ## Introducción
-El trabajo presenta un análisis del Tipo de Empleo según Género (tomando en consideración la clasificación mujer-hombre) para la región de América Latina y el Caribe. Comprende datos para los años 1991 y 2016. Cabe aclarar, que no se cuenta con datos para todos los países, para todos los años. 
+El trabajo presenta un análisis del Tipo de Empleo según Género (tomando en consideración la clasificación mujer-hombre) para la región de América Latina y el Caribe y España. Comprende datos para los años 1991 y 2018. Cabe aclarar, que no se cuenta con datos para todos los países, para todos los años. 
 
 
 ## Exploración de los datos
@@ -46,8 +46,16 @@ Veamos la media de empleo informal de mujeres para la década que va desde 2008 
 ```{r}
 datos_empleo_informal %>% 
   group_by(pais_region) %>% 
-  summarise(mean(empleo_informal_mujeres,na.rm=TRUE))
+  summarise(mean(empleo_informal_mujeres,na.rm=TRUE)) 
+
 ```
+```{r}
+datos_empleo_informal %>% 
+  group_by(pais_region) %>% 
+  ggplot(aes(pais_region,empleo_informal_mujeres))+
+  geom_line()
+```
+
 
 Ahora veremos el valor medio para todos los países considerados: 59.8
 
@@ -61,6 +69,12 @@ Ahora veamos el desvío standar por país
 datos_empleo_informal %>% 
   group_by(pais_region) %>% 
   summarise(sd(empleo_informal_mujeres,na.rm=TRUE))
+```
+
+```{r}
+datos_empleo_informal %>% 
+  group_by(pais_region) %>% 
+  summarise(n=n())
 ```
 
 

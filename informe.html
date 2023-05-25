@@ -391,8 +391,8 @@ para poder continuar analizándolos.</p>
   rename(anio=name) %&gt;% 
   filter(anio&gt;=2008) %&gt;% 
   pivot_wider(names_from=variable,values_from=porcentaje)  </code></pre>
-<p>Veamos la media de empleo informal de mujeres para la década que va
-desde 2008 a 2018.</p>
+<p>##Valor medio y desvío estándar Veamos la media de empleo informal de
+mujeres para la década que va desde 2008 a 2018.</p>
 <pre class="r"><code>datos_empleo_informal %&gt;% 
   group_by(pais_region) %&gt;% 
   summarise(mean(empleo_informal_mujeres,na.rm=TRUE))</code></pre>
@@ -410,7 +410,32 @@ desde 2008 a 2018.</p>
 ##  9 El Salvador                                          71.4
 ## 10 España                                              NaN  
 ## # ℹ 13 more rows</code></pre>
-<p>##Valor medio y desvío estándar</p>
+<p>Ahora veremos el valor medio para todos los países considerados:
+59.8</p>
+<pre class="r"><code>datos_empleo_informal %&gt;% 
+  summarise(mean(empleo_informal_mujeres,na.rm=TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   `mean(empleo_informal_mujeres, na.rm = TRUE)`
+##                                           &lt;dbl&gt;
+## 1                                          59.8</code></pre>
+<p>Ahora veamos el desvío standar por país</p>
+<pre class="r"><code>datos_empleo_informal %&gt;% 
+  group_by(pais_region) %&gt;% 
+  summarise(sd(empleo_informal_mujeres,na.rm=TRUE))</code></pre>
+<pre><code>## # A tibble: 23 × 2
+##    pais_region `sd(empleo_informal_mujeres, na.rm = TRUE)`
+##    &lt;chr&gt;                                             &lt;dbl&gt;
+##  1 Argentina                                          1.80
+##  2 Bolivia                                            2.07
+##  3 Brasil                                             2.80
+##  4 Chile                                             NA   
+##  5 Colombia                                           2.83
+##  6 Costa Rica                                         2.17
+##  7 Cuba                                              NA   
+##  8 Ecuador                                            4.63
+##  9 El Salvador                                        1.09
+## 10 España                                            NA   
+## # ℹ 13 more rows</code></pre>
 <div id="hipótesis" class="section level2">
 <h2>Hipótesis</h2>
 </div>
