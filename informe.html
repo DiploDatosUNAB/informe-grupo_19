@@ -357,17 +357,18 @@ display: none;
 
 <div id="introducción" class="section level2">
 <h2>Introducción</h2>
-<p>El presente trabajo presenta un análisis del Tipo de Empleo según
-Género (tomando en consideración solo las variales mujer-hombre) para la
-región de América Latina y el Carible, para los años comprendidos entre
-1991 y 2018. Cabe aclarar, que se realiza sobre datos disponibles para
-cada país y que no se cuenta con datos para todos los países, para todos
-los años.</p>
+<p>El trabajo presenta un análisis del Tipo de Empleo según Género
+(tomando en consideración la clasificación mujer-hombre) para la región
+de América Latina y el Caribe. Comprende datos para los años 1991 y
+2016. Cabe aclarar, que no se cuenta con datos para todos los países,
+para todos los años.</p>
 </div>
 <div id="exploración-de-los-datos" class="section level2">
 <h2>Exploración de los datos</h2>
-<pre class="r"><code># Código para cargar o leer los datos
-datos &lt;- read_csv(&quot;datos/empleo_genero.csv&quot;)</code></pre>
+</div>
+<div id="código-para-cargar-o-leer-los-datos" class="section level1">
+<h1>Código para cargar o leer los datos</h1>
+<pre class="r"><code>datos &lt;- read_csv(&quot;datos/empleo_genero.csv&quot;)</code></pre>
 <pre><code>## Rows: 460 Columns: 52
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -376,15 +377,43 @@ datos &lt;- read_csv(&quot;datos/empleo_genero.csv&quot;)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>El presente informe cuenta con 52 variables, y 460 observaciones. Las
-variables se refieren al tipo de trabajo. En principio trabajaremos con
-la variables “empleo informal”</p>
-<pre class="r"><code>datos_empleo_informal &lt;- filter(datos, variable == &quot;empleo_informal_mujeres&quot;|variable==&quot;empleo_informal_hombres&quot;)</code></pre>
-<pre class="r"><code>empleo_informal &lt;- group_by(datos, variable)</code></pre>
+<p>#Sobre el total de la información disponible El informe cuenta con 52
+variables, y 460 observaciones. Las variables se refieren al tipo de
+trabajo. En primer lugar, queremos trabajar con la variable “empleo
+informal”, sobre los datos dispobibles para hombres y mujeres, para toda
+la región. Utilizamos la función “filter” y además, organizamos la
+información sobre años, en una única columna con la función
+“pivot_longer”. Seguidamente, utilizano “pivot wider”ordenamos los datos
+para poder continuar analizándolos.</p>
+<pre class="r"><code>datos_empleo_informal &lt;- filter(datos, variable == &quot;empleo_informal_mujeres&quot;|variable==&quot;empleo_informal_hombres&quot;) %&gt;% 
+  pivot_longer(cols = -c(1:3)) %&gt;% 
+  rename(porcentaje=value) %&gt;% 
+  rename(anio=name) %&gt;% 
+  filter(anio&gt;=2008) %&gt;% 
+  pivot_wider(names_from=variable,values_from=porcentaje)  </code></pre>
+<p>Veamos la media de empleo informal de mujeres para la década que va
+desde 2008 a 2018.</p>
+<pre class="r"><code>datos_empleo_informal %&gt;% 
+  group_by(pais_region) %&gt;% 
+  summarise(mean(empleo_informal_mujeres,na.rm=TRUE))</code></pre>
+<pre><code>## # A tibble: 23 × 2
+##    pais_region `mean(empleo_informal_mujeres, na.rm = TRUE)`
+##    &lt;chr&gt;                                               &lt;dbl&gt;
+##  1 Argentina                                            48.6
+##  2 Bolivia                                              79.0
+##  3 Brasil                                               38.4
+##  4 Chile                                                29.9
+##  5 Colombia                                             61.5
+##  6 Costa Rica                                           41.3
+##  7 Cuba                                                NaN  
+##  8 Ecuador                                              66.4
+##  9 El Salvador                                          71.4
+## 10 España                                              NaN  
+## # ℹ 13 more rows</code></pre>
 <p>##Valor medio y desvío estándar</p>
-</div>
 <div id="hipótesis" class="section level2">
 <h2>Hipótesis</h2>
+</div>
 </div>
 
 

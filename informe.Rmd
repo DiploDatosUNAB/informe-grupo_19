@@ -49,6 +49,13 @@ datos_empleo_informal %>%
   summarise(mean(empleo_informal_mujeres,na.rm=TRUE))
 ```
 
+Ahora veremos el valor medio para todos los países considerados: 59.8
+
+```{r}
+datos_empleo_informal %>% 
+  summarise(mean(empleo_informal_mujeres,na.rm=TRUE))
+```
+
 
 ##Valor medio y desvío estándar
 
