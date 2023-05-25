@@ -40,7 +40,7 @@ datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|var
   
 
 ```
-
+##Valor medio y desvío estándar
 Veamos la media de empleo informal de mujeres para la década que va desde 2008 a 2018. 
 
 ```{r}
@@ -55,11 +55,13 @@ Ahora veremos el valor medio para todos los países considerados: 59.8
 datos_empleo_informal %>% 
   summarise(mean(empleo_informal_mujeres,na.rm=TRUE))
 ```
+Ahora veamos el desvío standar por país
 
-
-##Valor medio y desvío estándar
-
-
+```{r}
+datos_empleo_informal %>% 
+  group_by(pais_region) %>% 
+  summarise(sd(empleo_informal_mujeres,na.rm=TRUE))
+```
 
 
 ## Hipótesis
