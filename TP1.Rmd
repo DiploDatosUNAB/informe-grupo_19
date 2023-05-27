@@ -46,10 +46,13 @@ Veamos la media de empleo informal de mujeres para la década que va desde 2008 
 ```{r}
 datos_empleo_informal %>% 
   group_by(pais_region) %>% 
-  summarise(media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) 
+  summarise(media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) %>% 
+  arrange(desc(media_informal_mujeres))
 
 ```
-¿Cuál es el país con menor porcentaje de empleo informal de mujeres?
+El país con la mayor media de empleo informal de mujeres, para los años 2008-2018, es Guatemala: 79,26. Mientras que el país con la menor media de empleo informal de mujeres, es Chile: 29,94. 
+
+Sin embargo, si evaluamos los valores máximos y los valores mínimos considerando todos los años, vemos que el valor máximo de empleo informal de mujeres, para los años considerados entre 2008-2018 es Bolivia con 82,45. 
 
 ```{r}
 datos_empleo_informal %>% 
@@ -58,10 +61,45 @@ datos_empleo_informal %>%
   arrange(desc(max_empleo))
   
 ```
+El valor mínimo corresponde a Uruguay con 22,61. 
 
 ```{r}
 datos_empleo_informal %>% 
   group_by(pais_region) %>% 
+  summarise(min_empleo=min(empleo_informal_mujeres,na.rm=TRUE)) %>% 
+  arrange(min_empleo)
+```
+Nos interesa saber los años en los que la media de empleo informal de mujeres, ha sido más alto. Vemos que los el año 2008, es el año con mayor porcentaje de empleo informal de mujeres para la región considerada.  
+Aquí sería interesante saber si este porcentaje tiene relación con los totales de empleo informal para los países analizados, pero no contamos con los datos. 
+
+```{r}
+datos_empleo_informal %>% 
+  group_by(anio) %>% 
+  summarise(media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) %>% 
+  arrange(desc(media_informal_mujeres))
+  
+```
+
+
+```{r}
+datos_empleo_informal %>% 
+  group_by(anio) %>% 
+  summarise(media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) %>% 
+  ggplot(aes(anio,media_informal_mujeres))+
+  geom_line(aes(color=as.factor("media_informal_mujeres")))
+```
+
+
+
+```{r}
+media_informal_mujeres<-datos_empleo_informal %>% 
+  group_by(pais_region) %>% 
+  summarise(media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) 
+```
+
+```{r}
+media_informal_mujeres %>% 
+  group_by(anio) %>% 
   ggplot(aes(pais_region,media_informal_mujeres))+
   geom_line()
 ```
