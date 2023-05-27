@@ -28,7 +28,7 @@ datos <- read_csv("datos/empleo_genero.csv")
 ```
 #Sobre el total de la información disponible
 El informe cuenta con 52 variables, y 460 observaciones. Las variables se refieren al tipo de trabajo. En primer lugar, queremos trabajar con la variable "empleo informal", sobre los datos dispobibles para hombres y mujeres, para toda la región. 
-Utilizamos la función "filter" y además, organizamos la información sobre años, en una única columna con la función "pivot_longer". Seguidamente, utilizano "pivot wider"ordenamos los datos para poder continuar analizándolos. 
+Utilizamos la función "filter" y además, organizamos la información sobre años, en una única columna con la función "pivot_longer". Seguidamente, utilizando "pivot wider"ordenamos los datos para poder continuar analizándolos. 
 
 ```{r}
 datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
@@ -41,18 +41,28 @@ datos_empleo_informal <- filter(datos, variable == "empleo_informal_mujeres"|var
 
 ```
 ##Valor medio y desvío estándar
-Veamos la media de empleo informal de mujeres para la década que va desde 2008 a 2018. 
+Veamos la media de empleo informal de mujeres para la década que va desde 2008 a 2018, por país.  
 
 ```{r}
 datos_empleo_informal %>% 
   group_by(pais_region) %>% 
-  summarise(mean(empleo_informal_mujeres,na.rm=TRUE)) 
+  summarise(media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) 
 
 ```
+¿Cuál es el país con menor porcentaje de empleo informal de mujeres?
+
 ```{r}
 datos_empleo_informal %>% 
   group_by(pais_region) %>% 
-  ggplot(aes(pais_region,empleo_informal_mujeres))+
+  summarise(max_empleo=max(empleo_informal_mujeres,na.rm=TRUE)) %>% 
+  arrange(desc(max_empleo))
+  
+```
+
+```{r}
+datos_empleo_informal %>% 
+  group_by(pais_region) %>% 
+  ggplot(aes(pais_region,media_informal_mujeres))+
   geom_line()
 ```
 
@@ -63,13 +73,20 @@ Ahora veremos el valor medio para todos los países considerados: 59.8
 datos_empleo_informal %>% 
   summarise(mean(empleo_informal_mujeres,na.rm=TRUE))
 ```
-Ahora veamos el desvío standar por país
+Ahora veamos el desvío estandar
 
 ```{r}
 datos_empleo_informal %>% 
   group_by(pais_region) %>% 
-  summarise(sd(empleo_informal_mujeres,na.rm=TRUE))
+  summarise(sd(empleo_informal_mujeres,na.rm=TRUE)) 
 ```
+
+##¿CUál es el país con menor porcentaje de Empleo Informal de Mujeres?
+
+```{r}
+
+```
+
 
 ```{r}
 datos_empleo_informal %>% 
