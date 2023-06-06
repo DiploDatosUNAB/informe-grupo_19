@@ -236,4 +236,16 @@ t_doméstico_no_r_argentina <- filter(datos_sin_regiones,variable=="trabajo_dome
 ggplot(aes(variable,porcentaje,fill=variable))+
   geom_col()
 ```
-CONCLUSIONES
+##RESULTADOS
+AMERICA LATINA
+- La media de empleo informal de mujeres para la región analizada, para los años que van entre 2008 y 2018 es de 59.80
+- Si analizamos los datos por país, podemos observar que el país con la media de empleo informal de mujeres más alta es Guatemala: 79,26. Mientras que el país con la menor media de empleo informal de mujeres, es Chile: 29,94.
+- Sin embargo, si evaluamos los valores máximos y los valores mínimos agrupando todos los años, vemos que el valor máximo de empleo informal de mujeres corresponde a Bolivia con 82,45, seguido sí, por Guatemala con 82,40.El valor mínimo corresponde a Uruguay con 22,61, seguido por Chile con 29,94.
+- El país que más se aleja de la media, es Uruguay.
+- El año 2008, es el año con mayor porcentaje de empleo informal de mujeres para la región considerada. No podemos responder si existe un salto asociado a la crisis financiera global porque no contamos con información completa para el resto de los años. Además, no contamos con una variable llamada "empleo formal" que nos sirva para comparar.
+
+ARGENTINA
+- Para el año 2008, más del 90% de las mujeres se encontraban empleadas en el sector de servicios y sólo el 2,5% desempeñaba tareas como empleadora.
+- Si comparamos la inforamción anterior con la distribución por tipo de empleo para varones, veremos que un mayor porcentaje de empleadores hombres y hombres autoempleados. Por otra parte podemos observar una reducción en el porcentaje de hombres empleados en servicios y un aumento considerable en el sector industria.
+- Si comparamos los hombres y mujeres empleadxs con empleo informal, para el año 2017 (último año disponible con datos para Argentina) vemos que no podemos observar diferencias significativas.
+- Si analizamos el procentaje de trabajo doméstico no remunerado realizado por hombres en comparación con el trabajo realizado por mujeres (para el año 2013, último año con datos disponibles) vemos que para este punto la diferencia es significativa, dado que el procentaje para mujeres duplica y casi triplica el procentaje para varones.
