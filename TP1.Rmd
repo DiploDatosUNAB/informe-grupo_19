@@ -15,6 +15,7 @@ library(readr)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(cowplot)
 ```
 
 ## Introducción
@@ -51,12 +52,11 @@ En primer lugar, vamos a analizar la variable Empleo Informal Mujeres, para Amé
 
 ```{r}
 datos_empleo_informal <- filter(datos_sin_regiones, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
-  pivot_longer(cols = -c(1:3)) %>% 
-  rename(porcentaje=value) %>% 
-  rename(anio=name) %>% 
-  filter(anio>=2008) %>% 
+  pivot_longer(cols = -c(1:3),names_to="anio",values_to="porcentaje") %>% 
+  filter(as.numeric(anio)>=2008) %>% 
   pivot_wider(names_from=variable,values_from=porcentaje)
 ```
+
 
 # Media de empleo informal, en mujeres
 
@@ -126,9 +126,10 @@ datos_empleo_informal %>%
   group_by(pais_region) %>% 
   summarise(desvío=sd(empleo_informal_mujeres,na.rm=TRUE)) %>% 
   arrange(desc(desvío)) %>% 
-  ggplot(aes(desvío,pais_region,group=1))+
-  geom_line()
+  ggplot(aes(desvío,pais_region))+
+  geom_point()
 ```
+
 
 # Mayor media de empleo informal, por año. 
 
@@ -210,24 +211,15 @@ En la siguiente sección nos proponemos analizar:
 Para el año 2008, más del 90% de las mujeres se encontraban empleadas en el sector de servicios y sólo el 2,5% desempeñaba tareas como empleadora.
 
 ```{r}
-empleo_mujeres_argentina <- filter(datos_sin_regiones,variable=="empleadoras_mujeres"|variable=="empleo_agricultura_mujeres"|variable=="empleo_industria_mujeres"|variable=="empleo_servicios_mujeres"|variable=="autoempleo_mujeres",) %>% 
+empleo_argentina_mujeres <- filter(datos_sin_regiones,variable=="empleadoras_mujeres"|variable=="empleo_agricultura_mujeres"|variable=="empleo_industria_mujeres"|variable=="empleo_servicios_mujeres"|variable=="autoempleo_mujeres") %>% 
   pivot_longer(cols = -c(1:3)) %>% 
   rename(porcentaje=value) %>% 
   rename(anio=name) %>% 
   filter(anio==2018) %>% 
-  filter(pais_region=="Argentina")
-
+  filter(pais_region=="Argentina") 
 
 ```
 
-```{r}
-
-#| fig.cap = "Empleo de mujeres según sector."
-
-empleo_mujeres_argentina %>% 
-  ggplot(aes(porcentaje,variable,fill=variable))+
-  geom_col()
-```
 
 # Distribución de empleo según sector, varones. 
 
@@ -243,14 +235,7 @@ empleo_hombres_argentina <- filter(datos_sin_regiones,variable=="empleadores_hom
 
 ```
 
-```{r}
 
-#| fig.cap = "Empleo de hombres según sector."
-#| 
-empleo_hombres_argentina %>% 
-  ggplot(aes(porcentaje,variable,fill=variable))+
-  geom_col()
-```
 
 # Empleo informal, mujeres y hombres.
 
