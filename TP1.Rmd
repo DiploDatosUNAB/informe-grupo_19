@@ -138,8 +138,7 @@ Nos interesa saber el año en el que la media de empleo informal de mujeres ha s
 ```{r}
 tabla_media<-datos_empleo_informal %>% 
   group_by(anio) %>% 
-  summarise(media_informal_mujeres_por_anio=mean(empleo_informal_mujeres,na.rm=TRUE)) %>% 
-  arrange(desc(media_informal_mujeres_por_anio))
+  summarise(media_informal_mujeres_por_anio=mean(empleo_informal_mujeres,na.rm=TRUE)) %>%   arrange(desc(media_informal_mujeres_por_anio))
   
 ```
 
@@ -188,7 +187,7 @@ anios_ampliado_datos %>%
 anios_ampliado_datos %>% 
   filter(anio==2000|anio==2001) %>% 
   arrange(desc(empleo_informal_mujeres)) %>% 
-  knitr::kable(col.names = c("País","COD","Anio","Emp Inf Muj","Emp Inf Hom"))
+  knitr::kable(col.names = c("País","COD","Anio","EI Muj","EI Hom"))
 
 ```
 
@@ -198,9 +197,7 @@ En conclusión, con los datos disponibles, la hipótesis no puede ser estudiada 
 
 En la siguiente sección nos proponemos analizar:
 
-1\. ¿Cómo se distribuye el empleo según sector, para el año 2018(último año disponible) para las mujeres?
-
-2\. ¿Cómo se distribuye el empleo según sector, para el año 2018(último año disponible) para los hombres?
+1\. ¿Cómo se distribuye el empleo según sector, para el año 2018(último año disponible) para hombres y mujeres?
 
 3\. ¿Cuál es la diferencia entre mujeres y varones empleadxs con empleo informal?
 
@@ -208,10 +205,10 @@ En la siguiente sección nos proponemos analizar:
 
 # Distribución de empleo según sector, mujeres
 
-Para el año 2008, más del 90% de las mujeres se encontraban empleadas en el sector de servicios y sólo el 2,5% desempeñaba tareas como empleadora.
+Para el año 2008, más del 90% de las mujeres se encontraban empleadas en el sector de servicios y sólo el 2,5% desempeñaba tareas como empleadora.Si comparamos la inforamción anterior con la distribución por tipo de empleo para varones, veremos que un mayor porcentaje de empleadores hombres y hombres autoempleados. Por otra parte podemos observar una reducción en el porcentaje de hombres empleados en servicios y un aumento considerable en el sector industria.
 
 ```{r}
-empleo_argentina_mujeres <- filter(datos_sin_regiones,variable=="empleadoras_mujeres"|variable=="empleo_agricultura_mujeres"|variable=="empleo_industria_mujeres"|variable=="empleo_servicios_mujeres"|variable=="autoempleo_mujeres") %>% 
+probando_empleo_hombres_argentina <- filter(datos_sin_regiones,variable=="empleadores_hombres"|variable=="empleo_agricultura_hombres"|variable=="empleo_industria_hombres"|variable=="empleo_servicios_hombres"|variable=="autoempleo_hombres"|variable=="empleadoras_mujeres"|variable=="empleo_agricultura_mujeres"|variable=="empleo_industria_mujeres"|variable=="empleo_servicios_mujeres"|variable=="autoempleo_mujeres") %>% 
   pivot_longer(cols = -c(1:3)) %>% 
   rename(porcentaje=value) %>% 
   rename(anio=name) %>% 
@@ -220,21 +217,16 @@ empleo_argentina_mujeres <- filter(datos_sin_regiones,variable=="empleadoras_muj
 
 ```
 
-
-# Distribución de empleo según sector, varones. 
-
-Si comparamos la inforamción anterior con la distribución por tipo de empleo para varones, veremos que un mayor porcentaje de empleadores hombres y hombres autoempleados. Por otra parte podemos observar una reducción en el porcentaje de hombres empleados en servicios y un aumento considerable en el sector industria.
-
 ```{r}
-empleo_hombres_argentina <- filter(datos_sin_regiones,variable=="empleadores_hombres"|variable=="empleo_agricultura_hombres"|variable=="empleo_industria_hombres"|variable=="empleo_servicios_hombres"|variable=="autoempleo_hombres",) %>% 
-  pivot_longer(cols = -c(1:3)) %>% 
-  rename(porcentaje=value) %>% 
-  rename(anio=name) %>% 
-  filter(anio==2018) %>% 
-  filter(pais_region=="Argentina") 
-
+sexo<-c("Mujeres", "Hombres", "Mujeres", "Hombres", "Mujeres", "Hombres", "Mujeres", "Hombres", "Mujeres", "Hombres")
+sexo<- as.data.frame(sexo)
+sector<-c("Empleadorxs", "Empleadorxs", "Agricultura", "Agricultura", "Industria", "Industria", "Servicios", "Servicios", "Autoempleo", "Autoempleo")
+sector<- as.data.frame(sector)
+datosp<-cbind(probando_empleo_hombres_argentina, sexo, sector)
+ggplot() + 
+  geom_bar(data=datosp,aes(x=sector, y=porcentaje ,fill=sexo), stat='identity', position='dodge') +
+coord_flip()
 ```
-
 
 
 # Empleo informal, mujeres y hombres.
@@ -281,6 +273,8 @@ ggplot(aes(variable,porcentaje,fill=variable))+
   geom_col()
 ```
 
+
+
 ## Resultados
 
 # América Latina
@@ -297,10 +291,8 @@ El año 2008, es el año con mayor porcentaje de empleo informal de mujeres para
 
 # Argentina
 
-Para el año 2008, más del 90% de las mujeres se encontraban empleadas en el sector de servicios y sólo el 2,5% desempeñaba tareas como empleadora.
+Para el año 2008, más del *90%* de las mujeres se encontraban empleadas en el sector de *servicios* y sólo el *2,5%* desempeñaba tareas como *empleadora*.Si comparamos la información anterior con la distribución por tipo de empleo para varones, veremos que un mayor porcentaje de *empleadores hombres* y *hombres autoempleados*. Por otra parte podemos observar una *reducción* en el *porcentaje* de *hombres* empleados en *servicios* y un *aumento* considerable en el sector *industria*.
 
-Si comparamos la inforamción anterior con la distribución por tipo de empleo para varones, veremos que un mayor porcentaje de empleadores hombres y hombres autoempleados. Por otra parte podemos observar una reducción en el porcentaje de hombres empleados en servicios y un aumento considerable en el sector industria.
+Si comparamos los *hombres* y *mujeres* empleadxs con *empleo informal*, para el año 2017 (último año disponible con datos para Argentina) vemos que no podemos observar diferencias significativas.
 
-Si comparamos los hombres y mujeres empleadxs con empleo informal, para el año 2017 (último año disponible con datos para Argentina) vemos que no podemos observar diferencias significativas.
-
-Si analizamos el procentaje de trabajo doméstico no remunerado realizado por hombres en comparación con el trabajo realizado por mujeres (para el año 2013, último año con datos disponibles) vemos que para este punto la diferencia es significativa, dado que el procentaje para mujeres duplica y casi triplica el procentaje para varones.
+Si analizamos el procentaje de *trabajo doméstico no remunerado* realizado por hombres en comparación con el trabajo realizado por mujeres (para el año 2013, último año con datos disponibles) vemos que para este punto la diferencia es significativa, dado que el procentaje para mujeres duplica y casi triplica el procentaje para varones.
