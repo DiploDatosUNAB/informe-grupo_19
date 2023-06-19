@@ -203,7 +203,7 @@ En la siguiente sección nos proponemos analizar:
 
 4\. ¿Cuál es la diferencia entre mujeres y varones que realizan trabajo doméstico no remunerado?
 
-# Distribución de empleo según sector, mujeres
+# Distribución de empleo según sector
 
 Para el año 2008, más del 90% de las mujeres se encontraban empleadas en el sector de servicios y sólo el 2,5% desempeñaba tareas como empleadora.Si comparamos la inforamción anterior con la distribución por tipo de empleo para varones, veremos que un mayor porcentaje de empleadores hombres y hombres autoempleados. Por otra parte podemos observar una reducción en el porcentaje de hombres empleados en servicios y un aumento considerable en el sector industria.
 
