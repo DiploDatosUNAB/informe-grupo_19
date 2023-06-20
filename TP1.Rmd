@@ -53,6 +53,12 @@ En primer lugar, vamos a analizar la variable Empleo Informal Mujeres, para Amé
 ```{r}
 datos_empleo_informal <- filter(datos_sin_regiones, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
   pivot_longer(cols = -c(1:3),names_to="anio",values_to="porcentaje") %>% 
+  pivot_wider(names_from=variable,values_from=porcentaje)
+```
+
+```{r}
+decada_EI <- filter(datos_sin_regiones, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
+  pivot_longer(cols = -c(1:3),names_to="anio",values_to="porcentaje") %>% 
   filter(as.numeric(anio)>=2008) %>% 
   pivot_wider(names_from=variable,values_from=porcentaje)
 ```
@@ -63,7 +69,7 @@ datos_empleo_informal <- filter(datos_sin_regiones, variable == "empleo_informal
 La media de empleo informal de mujeres para la región analizada, para los años que van entre 2008 y 2018 es de **59.80**.
 
 ```{r}
-datos_empleo_informal %>% 
+decada_EI %>% 
   summarise(total_media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) %>% 
   arrange(desc(total_media_informal_mujeres)) %>% 
   knitr::kable(col.names = c("Total media informal mujeres"))
@@ -75,7 +81,7 @@ datos_empleo_informal %>%
 Si analizamos los datos por país, podemos observar que el país con la media de empleo informal de mujeres más alta es Guatemala: 79,26. Mientras que el país con la menor media de empleo informal de mujeres, es Chile: 29,94.
 
 ```{r}
-datos_empleo_informal %>% 
+decada_EI %>% 
   group_by(pais_region) %>% 
   summarise(media_informal_mujeres=mean(empleo_informal_mujeres,na.rm=TRUE)) %>% 
   arrange(desc(media_informal_mujeres)) %>% 
@@ -88,7 +94,7 @@ datos_empleo_informal %>%
 Sin embargo, si evaluamos los valores máximos y los valores mínimos agrupando todos los años, vemos que el valor máximo de empleo informal de mujeres corresponde a Bolivia con 82,45, seguido sí, por Guatemala con 82,40.
 
 ```{r}
-datos_empleo_informal %>% 
+decada_EI %>% 
   group_by(pais_region) %>% 
   summarise(max_empleo=max(empleo_informal_mujeres,na.rm=TRUE)) %>% 
   arrange(desc(max_empleo)) %>% 
@@ -99,7 +105,7 @@ datos_empleo_informal %>%
 El valor mínimo corresponde a Uruguay con **22,61**, seguido por Chile con **29,94**.
 
 ```{r}
-datos_empleo_informal %>% 
+decada_EI %>% 
   group_by(pais_region) %>% 
   summarise(min_empleo=min(empleo_informal_mujeres,na.rm=TRUE)) %>% 
   arrange(min_empleo) %>% 
@@ -111,7 +117,7 @@ datos_empleo_informal %>%
 Ahora veamos el desvío estandar: el país que más se aleja de la media es **Uruguay.**
 
 ```{r}
-datos_empleo_informal %>% 
+decada_EI %>% 
   group_by(pais_region) %>% 
   summarise(desvío=sd(empleo_informal_mujeres,na.rm=TRUE)) %>% 
   arrange(desc(desvío)) %>% 
@@ -122,7 +128,7 @@ datos_empleo_informal %>%
 
 #| fig.cap = "Desvío estándar"
 
-datos_empleo_informal %>% 
+decada_EI %>% 
   group_by(pais_region) %>% 
   summarise(desvío=sd(empleo_informal_mujeres,na.rm=TRUE)) %>% 
   arrange(desc(desvío)) %>% 
@@ -136,7 +142,7 @@ datos_empleo_informal %>%
 Nos interesa saber el año en el que la media de empleo informal de mujeres ha sido más alta. El año **2008**, es el año con *mayor porcentaje de empleo informal de mujeres* para la región considerada (aquí sería interesante saber si este porcentaje tiene relación con los totales de empleo informal respecto al empleo formal,para los países analizados, pero no contamos con los datos).
 
 ```{r}
-tabla_media<-datos_empleo_informal %>% 
+tabla_media<-decada_EI %>% 
   group_by(anio) %>% 
   summarise(media_informal_mujeres_por_anio=mean(empleo_informal_mujeres,na.rm=TRUE)) %>%   arrange(desc(media_informal_mujeres_por_anio))
   
@@ -153,12 +159,7 @@ ggplot(data=tabla_media,mapping=aes(x=anio,y=media_informal_mujeres_por_anio, fi
 El año 2008 fue el año de la crisis financiera global, originada en las Hipotecas de Alto Riesgo en Estados Unidos y otros países, como España ¿está asociada esta crisis con el crecimiento del empleo informal en el año 2008 y los años subsiguientes? Aunque responder esta pregunta requiere considerar un mayor número de factores, como tener en cuenta el comportamiento respecto del empleo formal, podemos comenzar ampliando el rango de años para observar si hay un salto significativo.
 
 ```{r}
-anios_ampliado_datos<-filter(datos, variable == "empleo_informal_mujeres"|variable=="empleo_informal_hombres") %>% 
-  pivot_longer(cols = -c(1:3)) %>% 
-  rename(porcentaje=value) %>% 
-  rename(anio=name) %>% 
-  filter(anio<=2018,anio>=1998) %>% 
-  pivot_wider(names_from=variable,values_from=porcentaje)  
+anios_ampliado_datos<-filter(datos_empleo_informal, anio<=2018,anio>=1998) 
 
 ```
 
@@ -208,7 +209,7 @@ En la siguiente sección nos proponemos analizar:
 Para el año 2008, más del 90% de las mujeres se encontraban empleadas en el sector de servicios y sólo el 2,5% desempeñaba tareas como empleadora.Si comparamos la inforamción anterior con la distribución por tipo de empleo para varones, veremos que un mayor porcentaje de empleadores hombres y hombres autoempleados. Por otra parte podemos observar una reducción en el porcentaje de hombres empleados en servicios y un aumento considerable en el sector industria.
 
 ```{r}
-probando_empleo_hombres_argentina <- filter(datos_sin_regiones,variable=="empleadores_hombres"|variable=="empleo_agricultura_hombres"|variable=="empleo_industria_hombres"|variable=="empleo_servicios_hombres"|variable=="autoempleo_hombres"|variable=="empleadoras_mujeres"|variable=="empleo_agricultura_mujeres"|variable=="empleo_industria_mujeres"|variable=="empleo_servicios_mujeres"|variable=="autoempleo_mujeres") %>% 
+empleo_sector <- filter(datos_sin_regiones,variable=="empleadores_hombres"|variable=="empleo_agricultura_hombres"|variable=="empleo_industria_hombres"|variable=="empleo_servicios_hombres"|variable=="autoempleo_hombres"|variable=="empleadoras_mujeres"|variable=="empleo_agricultura_mujeres"|variable=="empleo_industria_mujeres"|variable=="empleo_servicios_mujeres"|variable=="autoempleo_mujeres") %>% 
   pivot_longer(cols = -c(1:3)) %>% 
   rename(porcentaje=value) %>% 
   rename(anio=name) %>% 
@@ -222,7 +223,7 @@ sexo<-c("Mujeres", "Hombres", "Mujeres", "Hombres", "Mujeres", "Hombres", "Mujer
 sexo<- as.data.frame(sexo)
 sector<-c("Empleadorxs", "Empleadorxs", "Agricultura", "Agricultura", "Industria", "Industria", "Servicios", "Servicios", "Autoempleo", "Autoempleo")
 sector<- as.data.frame(sector)
-datosp<-cbind(probando_empleo_hombres_argentina, sexo, sector)
+datosp<-cbind(empleo_sector, sexo, sector)
 ggplot() + 
   geom_bar(data=datosp,aes(x=sector, y=porcentaje ,fill=sexo), stat='identity', position='dodge') +
 coord_flip()
